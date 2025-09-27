@@ -1,11 +1,8 @@
-begin transaction;
-
 create domain PosInteger as integer check (value >= 0);
-
 create domain StringaM as varchar(100);
-
 create domain CodIATA as char(3);
 
+begin transaction;
 
 create table Compagnia (
     nome StringaM not null,

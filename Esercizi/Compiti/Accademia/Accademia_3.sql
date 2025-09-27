@@ -1,5 +1,5 @@
 create type Strutturato as
-	enum ('Ricercatore', 'Professore Associato', 'Professore Ordinato');
+	enum ('Ricercatore', 'Professore Associato', 'Professore Ordinario');
 create type LavoroProgetto as
 	enum ('Ricerca e Sviluppo', 'Dimostrazione', 'Management', 'Altro');
 create type LavoroNonProgettuale as
@@ -77,80 +77,96 @@ create table Assenza(
 	foreign key (persona) references Persona(id)
 );
 
-insert into Persona(id, nome, cognome, posizione, stipendio)
-values 
-(1, 'Larry', 'Chong', 'Ricercatore', 2000),
-(2, 'Mario', 'Rossi', 'Professore Ordinato', 1600),
-insert into Persona(id, nome, cognome, posizione, stipendio)
-values 
-(3, 'Jerry', 'Ventura', 'Professore Ordinato', 1600),
-(4, 'Nicolò', 'Bianchi', 'Ricercatore', 2250),
-(5, 'Mariano', 'Mela', 'Professore Associato', 1500);
+begin transaction;
 
-insert into Persona(id, nome, cognome, posizione, stipendio) 
-values
-(355590, 'Luca', 'Bianchi', 'Ricercatore', 41134),
-(166385, 'Maria', 'Rossi', 'Professore Associato', 87507),
-(442255, 'Andrea', 'Esposito', 'Professore Associato', 51735),
-(357534, 'Giulia', 'Romano', 'Ricercatore', 59141),
-(343530, 'Marco', 'Conti', 'Professore Ordinario', 82565),
-(987004, 'Lolo', 'Panda', 'Professore Associato', 82631),
-(823734, 'Matteo', 'De Luca', 'Ricercatore', 35173),
-(550963, 'Chiara', 'Ferri', 'Ricercatore', 80499),
-(873295, 'Elisa', 'Greco', 'Professore Associato', 47759),
-(567352, 'Sara', 'Moretti', 'Professore Associato', 92108),
-(534852, 'Alessandro', 'Galli', 'Ricercatore', 54616),
-(240126, 'Francesca', 'Parisi', 'Professore Ordinario', 37539),
-(146121, 'Davide', 'Rinaldi', 'Professore Ordinario', 71601),
-(353376, 'Nicolò', 'Gattò', 'Professore Associato', 77731),
-(405727, 'Lorenzo', 'Marchetti', 'Ricercatore', 31877),
-(350426, 'Martina', 'Leone', 'Ricercatore', 68485),
-(174656, 'Laura', 'Costa', 'Professore Associato', 41053),
-(475313, 'Alice', 'Ricci', 'Professore Associato', 34159),
-(947510, 'Nicola', 'Fontana', 'Professore Ordinario', 48285),
-(486087, 'Simone', 'Barbieri', 'Professore Ordinario', 27423),
-(777840, 'Ilaria', 'Cattaneo', 'Ricercatore', 85185),
-(45611, 'Giovanni', 'Sartori', 'Professore Ordinario', 77630),
-(747623, 'Valentina', 'Fabbri', 'Ricercatore', 93640),
-(914242, 'Beatrice', 'Pellegrini', 'Professore Associato', 73630),
-(795821, 'Riccardo', 'Vitale', 'Professore Ordinario', 88270);
+set constraints all deferred;
 
-insert into Progetto(id, nome, inizio, fine, budget) values 
-(47889, 'Security', '02/11/2025', '09/03/2026', 25000),
-(42163, 'R3', '18/05/2025', '16/10/2025', 14000),
-(49631, 'Tor93', '17/07/2025', '19/09/2026', 18000),
-(49648, 'Roma69', '01/01/2025', '03/07/2025', 16000),
-(47846, 'Giga71', '20/10/2024', '18/04/2025', 22000);
+INSERT INTO Persona(id, nome, cognome, posizione, stipendio)
+VALUES
+('0',	'Anna',		'Bianchi', 		'Ricercatore', 			'45500.30'),
+('1',	'Mario',	'Rossi', 		'Ricercatore', 			'35500.00'),
+('2',	'Barbara',	'Burso', 		'Ricercatore', 			'40442.50'),
+('3',	'Gino',		'Spada', 		'Ricercatore', 			'35870.90'),
+('4',	'Aurora',	'Bianchi', 		'Professore Associato', '43500.50'),
+('5',	'Guido',	'Spensierato', 	'Professore Associato', '38221.00'),
+('6',	'Consolata','Ferrari',	 	'Professore Associato', '29200.10'),
+('7',	'Andrea',	'Verona', 		'Professore Associato', '39002.05'),
+('8',	'Asia',		'Giordano', 	'Professore Ordinario', '45200.10'),
+('9', 	'Carlo',	'Zante', 		'Professore Ordinario', '40230.00'),
+('10', 	'Ginevra',	'Riva', 		'Professore Ordinario', '39955.00'),
+('11', 	'Davide',	'Quadro', 		'Professore Ordinario', '36922.10'),
+('12', 	'Dario',	'Basile', 		'Ricercatore', 			'42566.00'),
+('13', 	'Silvia',	'Donati', 		'Professore Ordinario', '38005.00'),
+('14', 	'Fiorella', 'Martino', 		'Professore Associato', '35544.50'),
+('15', 	'Leonardo', 'Vitali', 		'Professore Ordinario', '38779.80'),
+('16', 	'Paolo',	'Valentini', 	'Professore Associato', '39200.00'),
+('17', 	'Emilio',	'Greco', 		'Professore Associato', '42020.00'),
+('18', 	'Giulia',	'Costa', 		'Ricercatore', 			'40220.00'),
+('19', 	'Elisa',	'Longo', 		'Professore Associato', '39001.00'),
+('20', 	'Carla',	'Martinelli', 	'Ricercatore', 			'42030.20');
 
-insert into WP(progetto, id, nome, inizio, fine) values
-(47889, 2, 'Dissemination', '29/01/2023', '15/07/2025'),
-(42163, 1, 'Main Activity', '15/02/2024', '10/06/2024'),
-(49631, 3, 'Main Research', '10/08/2024', '11/03/2025'),
-(49648, 4, 'WP1', '08/02/2025', '10/04/2025'),
-(47846, 5, 'WP2', '04/01/2024', '07/07/2024');
+INSERT INTO Progetto(id, nome, inizio, fine, budget) VALUES
+('0',	'Artemide',		'2000-01-01',	'2002-12-31',	'255000'),
+('1',	'Pegasus',		'2012-01-01',	'2014-12-31',	'330000'),
+('2',	'WineSharing',	'1999-01-01',	'2003-12-31',	'998000'),
+('3',	'Simap',		'2010-02-01',	'2014-03-17',	'158000'),
+('4',	'DropDiscovery','2010-09-13',	'2013-01-20',	'99000');
 
-insert into Assenza(id, persona, tipo, giorno) values
-(1, 355590, 'Malattia', '14/02/2025'),
-(2, 987004, 'Chiusura Universitaria', '09/01/2025'),
-(3, 166385, 'Maternita', '18/03/2025'),
-(4, 947510, 'Malattia', '01/04/2025'),
-(5, 795821, 'Chiusura Universitaria', '25/12/2024');
+INSERT INTO WP(progetto, id, nome, inizio, fine) VALUES
+('0',	'0',	'WP1',				'2000-01-01',	'2000-12-31'),
+('0',	'1',	'WP2',				'2001-01-01',	'2001-12-31'),
+('0',	'2',	'WP3',				'2002-01-01',	'2002-12-31'),
+('1',	'0',	'WP1',				'2012-01-01',	'2012-12-31'),
+('1',	'1',	'WP2',				'2012-01-01',	'2012-12-31'),
+('1',	'2',	'WP3',				'2013-01-01',	'2013-12-31'),
+('2',	'1',	'Main Activity',	'1999-01-01',	'2003-12-31'),
+('3',	'0',	'State of the Art',	'2012-01-01',	'2012-12-31'),
+('3',	'1',	'Main Research',	'2013-01-01',	'2013-12-31'),
+('3',	'2',	'Dissemination',	'2014-01-01',	'2014-03-17');
 
-insert into AttivitaProgetto(id, persona, progetto, wp, giorno, tipo, oreDurata) values
-(14785, 1, 47889, 2, '18/06/2025', 'Ricerca e Sviluppo', 8),
-(13577, 2, 47889, 2, '14/04/2025', 'Dimostrazione', 6),
-(17587, 3, 42163, 1, '13/03/2024', 'Management', 4),
-(18546, 4, 42163, 1, '01/04/2024', 'Altro', 5),
-(14587, 5, 49648, 4, '01/04/2024', 'Ricerca e Sviluppo', 8);
+INSERT INTO AttivitaProgetto(id, persona, progetto, wp, giorno, tipo, oreDurata)
+VALUES
+('0',	'0',	'1',	'0',	'2012-04-15',	'Ricerca e Sviluppo',	'8'),
+('1',	'0',	'1',	'0',	'2012-04-16',	'Ricerca e Sviluppo',	'8'),
+('2',	'0',	'1',	'0',	'2012-04-17',	'Ricerca e Sviluppo',	'8'),
+('3',	'0',	'1',	'0',	'2012-04-18',	'Ricerca e Sviluppo',	'8'),
+('4',	'8',	'1',	'2',	'2013-03-15',	'Dimostrazione',		'8'),
+('5',	'10',	'1',	'0',	'2012-06-03',	'Ricerca e Sviluppo',	'8'),
+('6',	'2',	'1',	'1',	'2012-04-22',	'Dimostrazione',		'7'),
+('7',	'4',	'3',	'1',	'2013-01-19',	'Management',			'6'),
+('8',	'11',	'3',	'2',	'2014-02-15',	'Altro',				'5'),
+('9',	'0',	'3',	'2',	'2014-03-08',	'Ricerca e Sviluppo',	'6'),
+('10',	'4',	'2',	'1',	'2000-01-19',	'Management',			'2');
 
-insert into AttivitaNonProgettuale(id, persona, tipo, giorno, oreDurata) values
-(15975, 350426, 'Didattica', '14/11/2024', 3),
-(17531, 174656, 'Ricerca', '03/03/2025', 4),
-(16547, 475313, 'Didattica', '10/12/2024', 2),
-(13698, 486087, 'Missione', '19/05/2025', 5),
-(16924, 405727, 'Incontro Accademico', '01/04/2025', 4);
+INSERT INTO AttivitaNonProgettuale(id, persona, tipo, giorno, oreDurata) 
+VALUES
+('0',	'8',	'Incontro Dipartimentale',	'2011-06-01',	'4'),
+('1',	'8',	'Didattica',				'2011-03-15',	'8'),
+('2',	'8',	'Incontro Dipartimentale',	'2011-06-15',	'4'),
+('3',	'2',	'Didattica',				'2014-04-01',	'4'),
+('4',	'2',	'Didattica',				'2014-04-03',	'4'),
+('5',	'1',	'Didattica',				'2014-04-03',	'8'),
+('6',	'4',	'Incontro Accademico',		'2012-11-25',	'7'),
+('7',	'7',	'Missione',					'2013-07-07',	'3'),
+('8',	'5',	'Altro',					'2012-12-15',	'6'),
+('9',	'0',	'Didattica',				'2012-04-18',	'4'),
+('10',	'6',	'Didattica',				'2011-05-07',	'7');
 
-('Didattica', 'Ricerca', 'Missione', 'Incontro Dipartimentale', 'Incontro Accademico', 'Altro');
+INSERT INTO Assenza(id, persona, tipo, giorno) VALUES
+('0',	'10',	'Malattia',				'2011-06-01'),
+('1',	'10',	'Malattia',				'2011-06-02'),
+('2',	'10',	'Malattia',				'2011-06-03'),
+('3',	'10',	'Maternita',			'2011-06-04'),
+('4',	'8',	'Malattia',				'2011-07-02'),
+('5',	'19',	'Chiusura Universitaria','2013-06-29'),
+('6',	'7',	'Malattia',				'2012-12-07'),
+('7',	'0',	'Maternita',			'2013-10-27'),
+('8',	'17',	'Chiusura Universitaria','2011-08-15'),
+('9',	'15',	'Maternita',			'2010-12-12'),
+('10',  '0',	'Malattia', 			'2012-04-18');
+
+
+commit;
 
 
 
