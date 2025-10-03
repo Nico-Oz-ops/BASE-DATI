@@ -51,5 +51,27 @@ INSERT INTO Volo(codice, comp, durataMinuti) VALUES
 ('265',	'Caimanair',	'601'),
 ('536',	'Apitalia',		'599');
 
+commit;
 
+begin transaction;
+set constraints all deferred;
+ 
+insert into aeroporto(codice, nome)
+values
+('LIS', 'Aeroporto Humberto Delgado'),
+('OPO', 'Francisco Sa Carneiro');
+ 
+insert into luogoaeroporto(aeroporto, citta, nazione)
+values
+('LIS', 'Lisbona', 'Portogallo'),
+('OPO', 'Porto', 'Portogallo');
+ 
+insert into volo(codice, comp, durataminuti)
+values
+(266, 'Caimanair', 45);
+ 
+insert into arrpart(codice, comp, partenza, arrivo)
+values
+(266, 'Caimanair', 'LIS', 'OPO');
+ 
 commit;

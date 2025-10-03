@@ -24,7 +24,7 @@ GROUP BY la.nazione;
 /*4. Qual è la media, il massimo e il minimo della durata dei voli effettuati dalla
 compagnia ‘MagicFly’ ?*/
 SELECT 
-	AVG(durataminuti) as media, 
+	round(AVG(durataminuti)::numeric, 2) as media, 
 	MIN(durataminuti) as minimo,
 	MAX(durataminuti) as massimo
 FROM volo
@@ -44,10 +44,11 @@ SELECT la1.nazione, COUNT(DISTINCT la2.nazione) as raggiungibili
 FROM arrpart ap
 JOIN luogoaeroporto la1 ON ap.partenza = la1.aeroporto
 JOIN luogoaeroporto la2 ON ap.arrivo = la2.aeroporto
+WHERE la1.nazione <> la2.nazione
 GROUP BY la1.nazione;
 
 /*7. Qual è la durata media dei voli che partono da ognuno degli aeroporti?*/
-SELECT a.codice, a.nome, AVG(v.durataminuti) as media_durata
+SELECT a.codice, a.nome, round(AVG(v.durataminuti)::numeric, 2) as media_durata
 FROM aeroporto a
 JOIN arrpart ap ON a.codice = ap.partenza 
 JOIN volo v ON v.codice = ap.codice AND v.comp = ap.comp
@@ -87,3 +88,26 @@ SELECT comp as compagnia
 FROM volo
 GROUP BY comp
 HAVING MIN(durataminuti) > 100;
+
+
+
+
+/*BONUS. Quante sono le nazioni (diverse) raggiungibili da ogni nazione tramite uno o più
+voli? Bisogna considerare Portogallo nonostante il risultato sia 0*/
+SELECT la1.nazione, COUNT(DISTINCT la2.nazione) filter(WHERE la1.nazione<>la2.nazione) as raggiungibili 
+FROM arrpart ap
+JOIN luogoaeroporto la1 ON ap.partenza = la1.aeroporto
+JOIN luogoaeroporto la2 ON ap.arrivo = la2.aeroporto
+GROUP BY la1.nazione
+ORDER BY raggiungibili ASC;
+
+
+/*
+TROVARE GLI AEROPORTI DAI QUALI NON PARTE NESSUN VOLO
+*/
+SELECT a.codice, a.nome
+FROM aeroporto a
+WHERE a.codice NOT IN (
+	SELECT DISTINCT ap.partenza
+	FROM arrpart ap
+);
