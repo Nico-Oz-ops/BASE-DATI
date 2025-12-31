@@ -26,6 +26,13 @@ HAVING COUNT(*) >= 1;  '''<------questa opzione mi piace'''
 -- JOIN assenza a ON a.persona = p.id
 -- WHERE a.tipo = 'Malattia';   
 
+--opzione 3
+-- SELECT p.id, p.nome, COUNT(*) AS giorni_malattia
+-- FROM persona p
+-- JOIN assenza a ON a.persona = p.id
+-- WHERE a.tipo = 'Malattia'
+-- GROUP BY p.id, p.nome
+
 -- 4.​Per ogni tipo di assenza, restituire il numero complessivo
 -- di occorrenze. [3 punti]
 SELECT tipo, COUNT(*) AS occorrenze
@@ -58,6 +65,8 @@ GROUP BY p.nome, p.cognome, a.tipo;
 -- 8.​Restituire tutti i “Professori Ordinari” che hanno lo
 -- stipendio massimo. Per ognuno, restituire id, nome e
 -- cognome [4 punti]​
+
+--opzione 1: subquery
 SELECT id, nome, cognome
 FROM persona
 WHERE posizione = 'Professore Ordinario'
@@ -65,6 +74,59 @@ WHERE posizione = 'Professore Ordinario'
         SELECT max(stipendio)
         FROM persona
         WHERE posizione = 'Professore Ordinario'
+    );
+
+--opzione 2: WITH
+WITH mspo AS (
+    SELECT MAX(stipendio) AS max_stipendio_PO
+    FROM persona p 
+    WHERE posizione = 'Professore Ordinario')
+
+SELECT id AS persona_id, nome, cognome
+FROM persona, mspo
+WHERE posizione = 'Professore Ordinario' 
+    AND stipendio = mspo.max_stipendio_PO;
+
+-- versione codice python
+-- max_stipendio = float('-inf')
+-- persone_max = []
+-- for p in persona:
+--     if p.stipendio > max_stipendio:
+--         max_stipendio = p.stipendio
+--         persone_max = [p]
+--     elif p.stipendio = max_stipendio:
+--         persone_max.append(p)
+
+--opzione 3: GROUP BY + HAVING
+SELECT id, nome, cognome
+FROM persona
+WHERE posizione = 'Professore Ordinario'
+GROUP BY id, nome, cognome
+HAVING stipendio = (
+    SELECT MAX(stipendio) AS max_stipendio_PO
+    FROM persona p 
+    WHERE posizione = 'Professore Ordinario'
+)
+
+--opzione 4 - ALL
+SELECT id, nome, cognome
+FROM persona
+WHERE posizione = 'Professore Ordinario'
+    AND stipendio >= ALL (
+        SELECT stipendio
+        FROM persona
+        WHERE posizione = 'Professore Ordinario'
+    );
+
+--opzione 5 - NOT EXISTS
+SELECT p.id, p.nome, p.cognome
+FROM persona p
+WHERE posizione = 'Professore Ordinario'
+    AND NOT EXISTS (
+        SELECT *
+        FROM persona P1
+        WHERE p1.posizione = 'Professore Ordinario'
+            AND p1.stipendio > p.stipendio
     );
 
 -- 9.​Restituire la somma totale delle ore relative alle attività
