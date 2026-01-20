@@ -90,8 +90,6 @@ GROUP BY comp
 HAVING MIN(durataminuti) > 100;
 
 
-
-
 /*BONUS. Quante sono le nazioni (diverse) raggiungibili da ogni nazione tramite uno o più
 voli? Bisogna considerare Portogallo nonostante il risultato sia 0*/
 SELECT la1.nazione, COUNT(DISTINCT la2.nazione) filter(WHERE la1.nazione<>la2.nazione) as raggiungibili 
